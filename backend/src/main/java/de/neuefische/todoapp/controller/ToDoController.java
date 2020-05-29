@@ -32,6 +32,11 @@ public class ToDoController {
         return toDoService.addAMessage(description);
     }
 
+    @DeleteMapping("{id}")
+    public void deleteMessage(@PathVariable String id){
+        toDoService.deleteMessageByID(id);
+    }
+
 
 }
 

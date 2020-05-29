@@ -1,32 +1,42 @@
 package de.neuefische.todoapp.database;
 
 import de.neuefische.todoapp.enums.StatusEnum;
+import de.neuefische.todoapp.model.Description;
 import de.neuefische.todoapp.model.ToDoMessage;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class ToDoDB {
 
-    List<ToDoMessage> toDoMessageList = new ArrayList<>(List.of(
-            new ToDoMessage("1", "Message01", StatusEnum.OPEN),
-            new ToDoMessage("2", "Message02", StatusEnum.IN_PROGRESS),
-            new ToDoMessage("3", "Message03", StatusEnum.DONE)
-    ));
+    List<ToDoMessage> toDoMessageList = new ArrayList<>();
 
-    public List<ToDoMessage> getAllMessages(){
+    public List<ToDoMessage> getAllMessages() {
         return toDoMessageList;
     }
 
 
-    public ToDoMessage addAMessageToDb(ToDoMessage someMessage){
-        toDoMessageList.add(someMessage);
-        return someMessage;
+    public ToDoMessage addMessageToDB(Description someDescription) {
+        String uuid = UUID.randomUUID().toString();
+        String text = someDescription.getDescription();
+        ToDoMessage message = new ToDoMessage(uuid, text, StatusEnum.OPEN);
+        toDoMessageList.add(message);
+        return message;
+    }
+
+    public void removeMessageByID(String id){
+        toDoMessageList.removeIf(message -> message.getId().equals(id));
     }
 
 
 
+
+
+    public void clearDB() {
+        toDoMessageList.clear();
     }
+}
 
