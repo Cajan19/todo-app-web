@@ -1,6 +1,5 @@
 package de.neuefische.todoapp.controller;
 
-import de.neuefische.todoapp.model.Description;
 import de.neuefische.todoapp.model.ToDoMessage;
 import de.neuefische.todoapp.service.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +27,18 @@ public class ToDoController {
     }
 
     @PutMapping
-    public ToDoMessage addMessage(@RequestBody Description description) {
-        return toDoService.addAMessage(description);
+    public ToDoMessage addMessage(@RequestBody ToDoMessage toDoMessage) {
+        return toDoService.addAMessage(toDoMessage);
     }
 
     @DeleteMapping("{id}")
     public void deleteMessage(@PathVariable String id){
         toDoService.deleteMessageByID(id);
+    }
+
+    @PutMapping("{id}/status")
+    public ToDoMessage updateMessageStatus (@PathVariable String id, @RequestBody ToDoMessage horst){
+        return toDoService.updateMessageStatus(id, horst);
     }
 
 

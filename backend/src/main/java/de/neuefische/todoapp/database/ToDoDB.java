@@ -1,9 +1,10 @@
 package de.neuefische.todoapp.database;
 
 import de.neuefische.todoapp.enums.StatusEnum;
-import de.neuefische.todoapp.model.Description;
 import de.neuefische.todoapp.model.ToDoMessage;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,20 +20,26 @@ public class ToDoDB {
     }
 
 
-    public ToDoMessage addMessageToDB(Description someDescription) {
-        String uuid = UUID.randomUUID().toString();
-        String text = someDescription.getDescription();
-        ToDoMessage message = new ToDoMessage(uuid, text, StatusEnum.OPEN);
-        toDoMessageList.add(message);
-        return message;
+    public ToDoMessage addMessageToDB(ToDoMessage toDoMessage1) {
+        toDoMessage1.setId(UUID.randomUUID().toString());
+        toDoMessage1.setStatus(StatusEnum.OPEN);
+        toDoMessageList.add(toDoMessage1);
+        return toDoMessage1;
     }
 
-    public void removeMessageByID(String id){
+    public void removeMessageByID(String id) {
         toDoMessageList.removeIf(message -> message.getId().equals(id));
     }
 
-
-
+    public ToDoMessage updateMessageStatus(String id, ToDoMessage updateToDo) {
+        for (ToDoMessage horst : toDoMessageList) {
+            if (horst.getId().equals(id)) {
+                horst.setStatus(updateToDo.getStatus());
+                return horst;
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+    }
 
 
     public void clearDB() {

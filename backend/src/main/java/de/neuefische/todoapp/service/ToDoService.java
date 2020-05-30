@@ -1,7 +1,6 @@
 package de.neuefische.todoapp.service;
 
 import de.neuefische.todoapp.database.ToDoDB;
-import de.neuefische.todoapp.model.Description;
 import de.neuefische.todoapp.model.ToDoMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,12 +24,16 @@ public class ToDoService {
         return toDoDatabase.getAllMessages();
     }
 
-    public ToDoMessage addAMessage(Description someDescription){
-        return toDoDatabase.addMessageToDB(someDescription);
+    public ToDoMessage addAMessage(ToDoMessage toDoMessage){
+        return toDoDatabase.addMessageToDB(toDoMessage);
     }
 
     public void deleteMessageByID(String id){
         toDoDatabase.removeMessageByID(id);
+    }
+
+    public ToDoMessage updateMessageStatus(String id, ToDoMessage horst){
+        return toDoDatabase.updateMessageStatus(id, horst);
     }
 
 
